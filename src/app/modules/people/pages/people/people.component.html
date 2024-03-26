@@ -6,10 +6,10 @@
   <mat-sidenav-content>
     <div class="flex flex-row-reverse flex-wrap">
       <div class="flex align-items-center justify-content-center h-4rem mx-4">
-        new Person
+        <button mat-raised-button color="primary" (click)="openNewDialog()">+ New Person</button>
       </div>
     </div>
-    <app-people-list [peopleList]="(peopleList$ | async)!" />
+    <app-people-list [peopleList]="(peopleList$ | async)!" (onDeleteEvent)="onDelete($event)"/>
   </mat-sidenav-content>
 
 </mat-sidenav-container>

@@ -1,12 +1,15 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild, inject } from '@angular/core';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { PeopleListComponent } from '../../components/people-list/people-list.component';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription, tap } from 'rxjs';
 import { IPeople } from '../../../../core/models/people.interface';
 import { PeopleDetailsComponent } from '../../components/people-details/people-details.component';
 import { DataService } from '../../../../core/services/data.service';
 import { CommonModule } from '@angular/common';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { PeopleFormComponent } from '../../../../shared/components/people-form/people-form.component';
+import { DeleteDialogComponent } from '../../../../shared/components/delete-dialog/delete-dialog.component';
 
 @Component({
   selector: 'app-people',
@@ -14,6 +17,8 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule,
     MatSidenavModule,
+    MatDialogModule,
+    MatButtonModule,
     PeopleListComponent,
     PeopleDetailsComponent
   ],
@@ -21,10 +26,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './people.component.scss'
 })
 export class PeopleComponent implements AfterViewInit {
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
   private readonly dataService = inject(DataService);
   private readonly cd = inject(ChangeDetectorRef);
+  private readonly dialog = inject(MatDialog)
 
   public selectedPeople$!: Observable<IPeople | null>;
   public peopleList$ = this.dataService.peopleList$;
@@ -34,14 +38,16 @@ export class PeopleComponent implements AfterViewInit {
   public detail!: MatSidenav;
 
   @Input() set id(value: string) {
-    if(value) {
+    if (value) {
       this.dataService.findAndSelectPeople(value);
     }
   }
 
+  public openNewDialog() {
+    this.dialog.open(PeopleFormComponent);
+  }
+
   ngAfterViewInit(): void {
-    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-    //Add 'implements AfterViewInit' to the class.
     this.selectedPeople$ = this.dataService.selectedPeople$.pipe(
       tap(people => {
         if (this.detail) {
@@ -52,6 +58,12 @@ export class PeopleComponent implements AfterViewInit {
     this.cd.detectChanges()
     this.subscription = this.detail.closedStart.subscribe(() => {
       this.dataService.setSelectedPeople(null);
+    });
+  }
+
+  public onDelete(people: IPeople) {
+    this.dialog.open(DeleteDialogComponent, {
+      data: people,
     });
   }
 

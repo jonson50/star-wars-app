@@ -17,6 +17,9 @@ export class DataService {
   private selectedPeopleSource: BehaviorSubject<IPeople | null> = new BehaviorSubject<IPeople | null>(null);
   public selectedPeople$: Observable<IPeople | null> = this.selectedPeopleSource.asObservable();
 
+  private savedPersonSource: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public savedPerson$: Observable<boolean> = this.savedPersonSource.asObservable();
+
   public setPeopleList(data: IPeople[]) {
     this.peopleListSource.next(data);
   }
@@ -24,6 +27,25 @@ export class DataService {
   public setSelectedPeople(data: IPeople | null) {
     this.selectedPeopleSource.next(data);
     if (!data) this.router.navigateByUrl('/people');
+  }
+
+  public addPersonToList(person: IPeople) {
+    const list = this.peopleListSource.getValue();
+    person.id = this.generateGUID();
+    list.push(person);
+    this.peopleListSource.next(list);
+    this.savedPersonSource.next(true);
+  }
+
+  public startSavedPerson() {
+    this.savedPersonSource.next(false);
+  }
+
+  public deletePerson(id: string) {
+    const list = this.peopleListSource.getValue();
+    const newList = list.filter(p => p.id !== id)
+    this.peopleListSource.next(newList);
+    this.selectedPeopleSource.next(null);
   }
 
   public findAndSelectPeople(id: string) {
@@ -41,5 +63,13 @@ export class DataService {
       tap(
         list => this.peopleListSource.next(list)
       ));
+  }
+
+  private generateGUID(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      let r = Math.random() * 16 | 0,
+        v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
   }
 }

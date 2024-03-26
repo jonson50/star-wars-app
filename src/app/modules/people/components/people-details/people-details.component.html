@@ -1,31 +1,31 @@
 <div class="p-5">
   <div class="grid mb-5 mt-3">
     <div class="col">
-        <div class="text-center font-bold text-4xl">{{people?.name}}</div>
+      <div class="text-center font-bold text-4xl">{{people?.name | titlecase}}</div>
     </div>
-</div>
-<div class="field grid">
-  <div class="col-fixed" style="width:90px">Height:</div>
-  <div class="col">
+  </div>
+  <div class="field grid">
+    <div class="col-fixed" style="width:90px">Height:</div>
+    <div class="col">
       {{people?.height}} cm
+    </div>
   </div>
-</div>
-<div class="field grid">
-  <div class="col-fixed" style="width:90px">Mass:</div>
-  <div class="col">
-    {{people?.mass}}
+  <div class="field grid">
+    <div class="col-fixed" style="width:90px">Mass:</div>
+    <div class="col">
+      {{people?.mass}} kg
+    </div>
   </div>
-</div>
-<div class="field grid">
-  <div class="col-fixed" style="width:90px">Birth year:</div>
-  <div class="col">
-    {{people?.birth_year}}
+  <div class="field grid">
+    <div class="col-fixed" style="width:90px">Birth year:</div>
+    <div class="col">
+      {{people?.birth_year}}
+    </div>
   </div>
-</div>
-<div class="field grid">
-  <div class="col-fixed" style="width:90px">Gender:</div>
-  <div class="col">
-    {{people?.gender}}
+  <div class="field grid">
+    <div class="col-fixed" style="width:90px">Gender:</div>
+    <div class="col">
+      {{people?.gender | titlecase}}
+    </div>
   </div>
-</div>
 </div>
