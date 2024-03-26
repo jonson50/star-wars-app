@@ -1,1 +1,10 @@
 <router-outlet />
+
+@if(loading) {
+<div class="flex align-items-center justify-content-center w-full h-full">
+  <div>
+    <mat-spinner></mat-spinner>
+    <p>Loading data...</p>
+  </div>
+</div>
+}
