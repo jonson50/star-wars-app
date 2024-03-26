@@ -10,6 +10,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { PeopleFormComponent } from '../../../../shared/components/people-form/people-form.component';
 import { DeleteDialogComponent } from '../../../../shared/components/delete-dialog/delete-dialog.component';
+import { KeyUpDirective } from '../../../../core/directives/key-up.directive';
 
 @Component({
   selector: 'app-people',
@@ -20,7 +21,8 @@ import { DeleteDialogComponent } from '../../../../shared/components/delete-dial
     MatDialogModule,
     MatButtonModule,
     PeopleListComponent,
-    PeopleDetailsComponent
+    PeopleDetailsComponent,
+    KeyUpDirective
   ],
   templateUrl: './people.component.html',
   styleUrl: './people.component.scss'

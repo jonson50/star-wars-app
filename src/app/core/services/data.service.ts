@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class DataService {
   public readonly peopleService = inject(PeopleApiService);
   private readonly router = inject(Router);
+  private tempoList: IPeople[] = [];
 
   private peopleListSource: BehaviorSubject<IPeople[]> = new BehaviorSubject<IPeople[]>([]);
   public peopleList$: Observable<IPeople[]> = this.peopleListSource.asObservable();
@@ -33,7 +34,8 @@ export class DataService {
     const list = this.peopleListSource.getValue();
     person.id = this.generateGUID();
     list.push(person);
-    this.peopleListSource.next(list);
+    this.setPeopleList(list);
+    this.tempoList = [ ...list ];
     this.savedPersonSource.next(true);
   }
 
@@ -44,7 +46,8 @@ export class DataService {
   public deletePerson(id: string) {
     const list = this.peopleListSource.getValue();
     const newList = list.filter(p => p.id !== id)
-    this.peopleListSource.next(newList);
+    this.setPeopleList(newList);
+    this.tempoList = [ ...this.tempoList.filter(p => p.id !== id) ];
     this.selectedPeopleSource.next(null);
   }
 
@@ -58,10 +61,23 @@ export class DataService {
     }
   }
 
+  public searchPerson(filter: string) {
+    if(filter.length) {
+      const list = [ ...this.tempoList ];
+      const searchedList = list.filter(p => p.name.toUpperCase().includes(filter.toUpperCase()));
+      this.setPeopleList(searchedList);
+    } else {
+      this.setPeopleList([ ...this.tempoList ]);
+    }
+  }
+
   public getPeopleList(): Observable<IPeople[]> {
     return this.peopleService.getPeopleList().pipe(
       tap(
-        list => this.peopleListSource.next(list)
+        list => {
+          this.setPeopleList(list);
+          this.tempoList = [ ...list ];
+        }
       ));
   }
 
