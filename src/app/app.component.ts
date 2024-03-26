@@ -17,7 +17,7 @@ export class AppComponent {
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef)
 
-  public title = 'star-wars-app';
+  public title = 'star-wars-application';
   public loading = true;
 
   ngOnInit() {
