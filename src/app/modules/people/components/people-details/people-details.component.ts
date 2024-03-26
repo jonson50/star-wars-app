@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { IPeople } from '../../../../core/models/people.interface';
 
 @Component({
   selector: 'app-people-details',
@@ -8,5 +9,7 @@ import { Component } from '@angular/core';
   styleUrl: './people-details.component.scss'
 })
 export class PeopleDetailsComponent {
+  @Input()
+  people: IPeople | undefined;
 
 }

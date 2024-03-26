@@ -1,0 +1,15 @@
+<mat-sidenav-container>
+  <mat-sidenav #detail position="end" [fixedInViewport]="true">
+    <app-people-details [people]="(selectedPeople$ | async)!" />
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="flex flex-row-reverse flex-wrap">
+      <div class="flex align-items-center justify-content-center h-4rem mx-4">
+        new Person
+      </div>
+    </div>
+    <app-people-list [peopleList]="(peopleList$ | async)!" />
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

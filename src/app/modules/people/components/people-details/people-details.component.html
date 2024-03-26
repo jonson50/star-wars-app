@@ -1,1 +1,31 @@
-<p>people-details works!</p>
+<div class="p-5">
+  <div class="grid mb-5 mt-3">
+    <div class="col">
+        <div class="text-center font-bold text-4xl">{{people?.name}}</div>
+    </div>
+</div>
+<div class="field grid">
+  <div class="col-fixed" style="width:90px">Height:</div>
+  <div class="col">
+      {{people?.height}} cm
+  </div>
+</div>
+<div class="field grid">
+  <div class="col-fixed" style="width:90px">Mass:</div>
+  <div class="col">
+    {{people?.mass}}
+  </div>
+</div>
+<div class="field grid">
+  <div class="col-fixed" style="width:90px">Birth year:</div>
+  <div class="col">
+    {{people?.birth_year}}
+  </div>
+</div>
+<div class="field grid">
+  <div class="col-fixed" style="width:90px">Gender:</div>
+  <div class="col">
+    {{people?.gender}}
+  </div>
+</div>
+</div>

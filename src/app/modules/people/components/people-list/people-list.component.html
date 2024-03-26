@@ -1,1 +1,27 @@
-<p>people-list works!</p>
+<mat-list>
+  @for (people of peopleList; track people) {
+  <mat-list-item class="h-auto">
+    <div class="flex m-1 cursor-pointer list-item">
+      <div matRipple class="flex-grow-1 flex m-0" (click)="selectPerson(people)">
+        <div class="flex-none flex align-items-center justify-content-center mx-3">
+          <mat-icon aria-hidden="false">
+            @switch (people.gender) {
+            @case ('female') { face_3 }
+            @case ('male') { face_6 }
+            @default { smart_toy }
+            }
+          </mat-icon>
+        </div>
+        <div class="flex-grow-1 flex align-items-center justify-content-left font-semibold">
+          {{people.name}}
+        </div>
+      </div>
+      <div class="flex-none flex align-items-center justify-content-center">
+        <button mat-icon-button color="primary">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-list-item>
+  }
+</mat-list>
