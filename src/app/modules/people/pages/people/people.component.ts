@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, DestroyRef, Input, ViewChild, inject } from '@angular/core';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { PeopleListComponent } from '../../components/people-list/people-list.component';
 import { Observable, Subscription, tap } from 'rxjs';
@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { PeopleFormComponent } from '../../../../shared/components/people-form/people-form.component';
 import { DeleteDialogComponent } from '../../../../shared/components/delete-dialog/delete-dialog.component';
 import { KeyUpDirective } from '../../../../core/directives/key-up.directive';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-people',
@@ -30,11 +31,11 @@ import { KeyUpDirective } from '../../../../core/directives/key-up.directive';
 export class PeopleComponent implements AfterViewInit {
   private readonly dataService = inject(DataService);
   private readonly cd = inject(ChangeDetectorRef);
-  private readonly dialog = inject(MatDialog)
+  private readonly destroyRef = inject(DestroyRef)
+  public readonly dialog = inject(MatDialog)
 
   public selectedPeople$!: Observable<IPeople | null>;
   public peopleList$ = this.dataService.peopleList$;
-  private subscription!: Subscription;
 
   @ViewChild('detail')
   public detail!: MatSidenav;
@@ -58,19 +59,14 @@ export class PeopleComponent implements AfterViewInit {
       })
     );
     this.cd.detectChanges()
-    this.subscription = this.detail.closedStart.subscribe(() => {
+    this.detail.closedStart.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.dataService.setSelectedPeople(null);
     });
   }
 
-  public onDelete(people: IPeople) {
+  public onDeletePerson(people: IPeople) {
     this.dialog.open(DeleteDialogComponent, {
       data: people,
     });
   }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
 }

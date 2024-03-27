@@ -24,10 +24,11 @@ export class DeleteDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: IPeople) { }
 
   ngOnInit() {
-    this.dataService.startSavedPerson();
+    console.log(this.data)
+    /* this.dataService.startSavedPerson();
     this.dataService.savedPerson$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((end) => {
       if (end) this.dialogRef.close();
-    })
+    }) */
   }
 
   public onCancelClick() {

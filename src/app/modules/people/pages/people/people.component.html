@@ -19,6 +19,6 @@
         </button>
       </div>
     </div>
-    <app-people-list [peopleList]="(peopleList$ | async)!" (onDeleteEvent)="onDelete($event)" />
+    <app-people-list [peopleList]="(peopleList$ | async)!" (onDeleteEvent)="onDeletePerson($event)" />
   </mat-sidenav-content>
 </mat-sidenav-container>

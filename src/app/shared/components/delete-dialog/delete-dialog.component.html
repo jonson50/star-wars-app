@@ -2,7 +2,7 @@
 <mat-dialog-content>
   Would you like to delete {{data.name}}?
 </mat-dialog-content>
-<mat-dialog-actions>
+<mat-dialog-actions align="end">
   <button mat-button mat-dialog-close (click)="onCancelClick()">No</button>
   <button mat-button mat-dialog-close cdkFocusInitial (click)="onDelete()">Yes</button>
 </mat-dialog-actions>
